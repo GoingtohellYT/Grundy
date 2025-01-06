@@ -1,19 +1,21 @@
-Eléments réprétitifs :
- - cadeaux -> Alexis
+Eléments répétitifs :
+ - cadeaux -> Alexis (OK)
  - boules de Noël -> Héloise
- - chaussettes de Noël -> Alexis
- - parquet -> Alexis
+ - chaussettes de Noël -> Alexis (OK)
+ - parquet -> Alexis (OK)
 
 Sapin et étoile -> Héloise
 Fauteuil -> Héloise
-Cheminée et feu -> Alexis
-ouronne de Noël -> Alexis
-Table - Héloise
+Cheminée et feu -> Alexis (OK)
+Couronne de Noël -> Alexis
+Table -> Héloise
+Tapis -> Alexis (OK)
+Table pour texte -> Alexis (OK)
 
 Séparateurs :
-- sucre d'orge -> Alexis
+- sucre d'orge -> Alexis (OK)
 - guirlande -> Héloise
 
 Objet :
-- pain d'épices -> Alexis
+- pain d'épices -> Alexis (OK)
 - chocolat chaud -> Héloise

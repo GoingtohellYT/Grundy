@@ -1,4 +1,6 @@
 from turtle import *
+from decor import *
+# from elements import *
 
 # -------------- Création des tortues nécessaires à l'affichage du jeu -------------- #
 
@@ -7,28 +9,13 @@ setup(1500, 900)
 to = Turtle()  # tortue pour dessiner le jeu (objets et séparateurs)
 to.speed(0)  # on met la vitesse de la tortue à la vitesse maximale pour ne pas ralentir le jeu
 
-td = Turtle()  # tortue pour dessiner le décor (arrière-plan)
-td.speed(0)  # on met la tortue en vitesse maximale durant la période de dev -> possibilité de la ralentir ensuite pour admirer la création du décor
-
 tx = Turtle()  # tortue pour afficher les actions de l'ordi
+tx.speed(0)
 
 
-def dessineCroix(x, y, l, c, t):
-    """
-    Fonction qui dessine une croix dans le carré de côté l dont le point en bas à gauche a pour coordonnées (x,y)
-    """
-    t.up()
-    t.goto(x, y)
-    t.down()
-    t.color(c)
-    t.width(5)
-    t.goto(x + l, y + l)
-    t.up()
-    t.goto(x + l, y)
-    t.down()
-    t.goto(x, y + l)
-    t.width(1)
+decor()
 
+# ---------- Fonctions de représentation du jeu ---------- #
 
 def dessineSeparateur(x, y, l, t, c="red"):
     """
@@ -132,7 +119,4 @@ def display_text(text, x, y, tortue=tx, clear=False):
     tortue.write(text, font=("arial", 18, "bold"))
 
 
-# on dessine le décor, ici 2 croix, l'une verte, l'autre jaune
-dessineCroix(-100, -150, 100, "green", td)
-dessineCroix(100, -150, 50, "yellow", td)
-
+done()
