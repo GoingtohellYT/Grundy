@@ -3,6 +3,7 @@ from turtle import *
 td = Turtle()  # tortue pour dessiner le décor (arrière-plan)
 td.speed(0)  # on met la tortue en vitesse maximale durant la période de dev -> possibilité de la ralentir ensuite pour admirer la création du décor
 td.screen.getcanvas().master.resizable(False, False)
+td.hideturtle()
 
 from formes_basiques import *
 
@@ -173,7 +174,7 @@ def cadeau(x, y, c1, c2, long, larg, tortue=td):
     rectangle(x - 2, y + larg, long + 4, 5, c1)
 
     # On fait la ficelle d'emballage
-    rectangle(((x + long) / 2) - 3, y, 6, larg + 5, c2)
+    rectangle(x + (long / 2) - 3, y, 6, larg + 5, c2)
 
     # On fait le noeud
     noeud(x + (long / 2) - 12, y + larg + 11, c2)
@@ -266,8 +267,8 @@ def decor():
     tapis()
     table()
     sapinNoel(50, -75, 50)
-    for i in range(1):
-        cadeau(-150, 60, "red", "yellow", 30, 25)
+    for i in range(4):
+        cadeau(-150 + i*40, 50, "red", "yellow", 30, 25)
     # boules sapin
     # fauteuil
     cheminee(0, 50)

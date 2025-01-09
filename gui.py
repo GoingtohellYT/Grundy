@@ -1,19 +1,19 @@
 from turtle import *
 from decor import *
-# from elements import *
+from elements import *
 
 # -------------- Création des tortues nécessaires à l'affichage du jeu -------------- #
 
 setup(1500, 900)
+
+decor()
 
 to = Turtle()  # tortue pour dessiner le jeu (objets et séparateurs)
 to.speed(0)  # on met la vitesse de la tortue à la vitesse maximale pour ne pas ralentir le jeu
 
 tx = Turtle()  # tortue pour afficher les actions de l'ordi
 tx.speed(0)
-
-
-decor()
+tx.hideturtle()
 
 # ---------- Fonctions de représentation du jeu ---------- #
 
@@ -58,7 +58,7 @@ def dessineObjet(x, y, t, n, c="blue"):
     t.write(str(n))
 
 
-def representationJeu(jeu, tortue=to, x=-120, y=100):
+def representationJeu(jeu, tortue=to, x=-450, y=-60):
     """
     Fonction qui représente l'état actuel du jeu
 
@@ -69,22 +69,24 @@ def representationJeu(jeu, tortue=to, x=-120, y=100):
     Post-conditions :
         Le jeu est dessiné à l'écran
     """
-    objets = [dessineObjet, dessineObjet]
-    separateurs = [dessineSeparateur, dessineSeparateur]
+    objets = [pain_depices, tasse]
+    separateurs = [sucre_dorge, dessineGuirlande]
     x_base = x
     for j in range(len(jeu)):  # Pour chaque type d'ensemble
-        separateurs[j](x, y, 100, tortue)
-        x += 25
+        separateurs[j](x, y, tortue)
+        x += 50
         for e in jeu[j]:  # Pour chaque ensemble
             for i in range(e):
-                objets[j](x, y, tortue, i + 1)
+                objets[j](x, y+50, tortue, i + 1)
+                tortue.setheading(0)
                 if i == e - 1:  # Si c'est le dernier élément, on laisse moins d'espace pour ne pas avoir un trou avant le séparateur
-                    x += 30
+                    x += 80
                 else:
-                    x += 50
-            separateurs[j](x, y, 100, tortue)
-            x += 25
-        y -= 300  # on change la hauteur pour le type d'ensemble suivant
+                    x += 70
+            separateurs[j](x, y, tortue)
+            tortue.setheading(0)
+            x += 50
+        y -= 200  # on change la hauteur pour le type d'ensemble suivant
         x = x_base
 
 
@@ -116,7 +118,7 @@ def display_text(text, x, y, tortue=tx, clear=False):
     tortue.goto(x, y)
     tortue.width(7)
     tortue.down()
-    tortue.write(text, font=("arial", 18, "bold"))
+    tortue.write(text, font=("arial", 14, "bold"))
 
 
-done()
+# done()

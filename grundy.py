@@ -241,7 +241,7 @@ def ordiJoue(jeu):
 
     jeu[type_ens_ordi - 1].insert(ensemble_ordi,
                                   nb_elem_ensemble - coupe_ordi)  # On insère un ensemble avec les éléments suivants la coupe
-    display_text(f"L'ordi a joué dans le type d'ensemble n°{type_ens_ordi} et a choisi de couper l'ensemble {ensemble_ordi} à l'endroit {coupe_ordi}", -610, -450)
+    display_text(f"L'ordi a joué dans le type d'ensemble n°{type_ens_ordi} et a choisi de couper l'ensemble {ensemble_ordi} à l'endroit {coupe_ordi}", -610, -430)
 
 
 # Fait jouer alternativement le joueur et l'ordi
@@ -274,8 +274,8 @@ def partie(n, nb_type_ens=2):
                 reset()
                 representationJeu(jeu)
                 loser = "joueur"
-    display_text(f"{loser} a perdu !", -610, -500)
+    display_text(f"{loser} a perdu !", -610, -415, clear=True)
     done()
 
 
-partie(9)
+partie(8)  # Pour plus de 8 éléments, des objets/séparateurs risquent de sortie de la zone de jeu

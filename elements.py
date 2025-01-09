@@ -19,33 +19,33 @@ def sucre_dorge(x, y, tortue):
     # On ajoute les bandes rouges
     tortue.left(90)
     for i in range(5):
-        rectangle(x, y+(i*10), 12, 5, "red")
+        rectangle(x, y+(i*10), 12, 5, "red", tortue)
 
     tortue.left(45)
-    rectangle(x-1, y+46, 12, 5, "red")
+    rectangle(x-1, y+46, 12, 5, "red", tortue)
     tortue.left(45)
-    rectangle(x-8, y+51, 12, 5, "red")
+    rectangle(x-8, y+51, 12, 5, "red", tortue)
     tortue.left(45)
-    rectangle(x-13, y+50, 15, 5, "red")
+    rectangle(x-13, y+50, 15, 5, "red", tortue)
     tortue.left(20)
-    rectangle(x - 20, y + 40, 15, 5, "red")
-    tortue.right(145)  # On remet la tortue vers la droite
-
-
-# Liste de couleurs pour la guirlande
-couleurs_guirlandes = ["#F40584", "#83F52C", "#2DDFF3", "#FFFF00", "#B026FF"]
+    rectangle(x - 20, y + 40, 15, 5, "red", tortue)
+    tortue.right(155)  # On remet la tortue vers la droite
+    tortue.up()
 
 
 # Fonction pour dessiner une guirlande verticale
-def dessineGuirlande(x, y, t, n, couleurs):
+def dessineGuirlande(x, y, t, n=3):
+    # Liste de couleurs pour la guirlande
+    couleurs = ["#F40584", "#83F52C", "#2DDFF3", "#FFFF00", "#B026FF"]
+
     for i in range(n):
         # Placer la tortue à la position (x, y - (i * 40)) pour chaque boule
         t.up()
-        t.goto(x, y - (i * 40))
+        t.goto(x, y + (i * 40))
         t.down()
         
         # Choisir la couleur de la boule (alterner)
-        t.color(couleurs[i % len(couleurs)])
+        t.fillcolor(couleurs[i % len(couleurs)])
         
         # Dessiner une petite boule (cercle)
         t.begin_fill()
@@ -54,14 +54,16 @@ def dessineGuirlande(x, y, t, n, couleurs):
     
     # Dessiner le fil vertical
     t.up()
-    t.goto(x, y + 10)  # Aller juste au-dessus de la première boule
-    t.setheading(270)  # Orienter la tortue vers le bas (270 degrés)
+    t.goto(x, y - 10)  # Aller juste au-dessus de la première boule
+    t.setheading(90)  # Orienter la tortue vers le bas (270 degrés)
     t.down()
     t.forward(n * 40)  # Dessiner le fil vertical en fonction du nombre de boules
+    t.setheading(0)  
+
 
 
 # --------- Pour les objets --------- #
-def pain_depices(x, y, mult, tortue=t):
+def pain_depices(x, y, tortue, nb, mult=0.3):
     # On fait le contour
     setup_perso(x, y, tortue, (184, 135, 85))
 
@@ -123,36 +125,36 @@ def pain_depices(x, y, mult, tortue=t):
     tortue.end_fill()
 
     tortue.right(80)  # On remet la tortue vers la droite
+    setup_perso(x, y-(100*mult), tortue, "black", False)
+    tortue.write(str(nb))
 
 
-def tasse():# Dessiner le corps de la tasse (un carré) 
+def tasse(x, y, t, nb):# Dessiner le corps de la tasse (un carré) 
     t.penup()
-    t.goto(-50, -50)  # Positionner la tortue au coin inférieur gauche
+    t.goto(x, y)  # Positionner la tortue au coin inférieur gauche
     t.pendown()
     t.begin_fill()  
-    dessineCarre(100, -50, -50, "red",t)  
+    rectangle(x, y, 50, 50, "red", t)
     t.end_fill() 
     
     # Dessiner l'anse 
     # 1er demi-cercle, collé au côté gauche du carré
-    t.penup()
-    t.goto(-150, -50)  # Positionner la tortue sur le côté gauche du carré 
-    t.pendown()
+    t.goto(x, y)
     t.setheading(0)  
     t.begin_fill()  
     t.fillcolor("red")  
-    t.circle(30, -180)  # Dessiner un demi-cercle tourné vers la droite (effet miroir)
+    t.circle(15, -180)  # Dessiner un demi-cercle tourné vers la droite (effet miroir)
     t.end_fill()  
     
     # 2ème demi-cercle (plus petit), tourné vers la droite, collé au côté gauche du carré
-    t.penup()
-    t.goto(-150, -50)  # Positionner la tortue au même endroit
-    t.pendown()
+    t.goto(x, y)
     t.setheading(0)  
     t.begin_fill()  
     t.fillcolor("white")  # Remplir avec la couleur blanche
-    t.circle(20, -180)  
+    t.circle(8, -180)  
     t.end_fill()
+
+    t.write(str(nb))
     
     # Terminer le dessin
     t.penup()

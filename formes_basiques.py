@@ -4,12 +4,13 @@ from decor import td
 colormode(255)
 
 
-def setup_perso(x, y, tortue, c):
+def setup_perso(x, y, tortue, c, fill=True):
     tortue.up()
     tortue.goto(x, y)
     tortue.down()
-    tortue.fillcolor(c)
-    tortue.begin_fill()
+    if fill:
+        tortue.fillcolor(c)
+        tortue.begin_fill()
 
 
 def rectangle(x, y, longueur, largeur, c, tortue=td):
@@ -26,7 +27,7 @@ def dessinePolygone(nombreCotes, longueurCotes, x, y, couleur, t=td):
     t.up()
     t.goto(x, y)
     t.down()
-    t.color(couleur)
+    t.fillcolor(couleur)
     angle = 360 / nombreCotes
     k = 0
     while k < nombreCotes:
