@@ -151,10 +151,8 @@ def joueurJoue(jeu):
     coupe_joueur = choixCoupeJoueur(nb_elem_ensemble)
     jeu[type_ens_joueur - 1][ensemble_joueur - 1] = coupe_joueur  # On change la taille de l'ensemble coupé
 
-    jeu[type_ens_joueur - 1].insert(ensemble_joueur,
-                                    nb_elem_ensemble - coupe_joueur)  # On insère un ensemble avec les éléments suivants la coupe
+    jeu[type_ens_joueur - 1].insert(ensemble_joueur, nb_elem_ensemble - coupe_joueur)  # On insère un ensemble avec les éléments suivants la coupe
     display_text(f"Vous avez joué dans le type d'ensemble n°{type_ens_joueur} et avez choisi de couper l'ensemble {ensemble_joueur} à l'endroit {coupe_joueur}", -610, -400, clear=True)
-
 
 
 def choixTypeEnsembleOrdi(jeu):
@@ -239,8 +237,7 @@ def ordiJoue(jeu):
     coupe_ordi = choixCoupeOrdi(nb_elem_ensemble)
     jeu[type_ens_ordi - 1][ensemble_ordi - 1] = coupe_ordi  # On change la taille de l'ensemble coupé
 
-    jeu[type_ens_ordi - 1].insert(ensemble_ordi,
-                                  nb_elem_ensemble - coupe_ordi)  # On insère un ensemble avec les éléments suivants la coupe
+    jeu[type_ens_ordi - 1].insert(ensemble_ordi, nb_elem_ensemble - coupe_ordi)  # On insère un ensemble avec les éléments suivants la coupe
     display_text(f"L'ordi a joué dans le type d'ensemble n°{type_ens_ordi} et a choisi de couper l'ensemble {ensemble_ordi} à l'endroit {coupe_ordi}", -610, -430)
 
 
