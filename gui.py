@@ -1,6 +1,4 @@
-from turtle import *
 from decor import *
-from elements import *
 
 # -------------- Création des tortues nécessaires à l'affichage du jeu -------------- #
 
@@ -15,6 +13,8 @@ td.getscreen().tracer(1)  # On désactive l'affichage instantané
 tx = Turtle()  # tortue pour afficher les actions de l'ordi
 tx.speed(0)
 tx.hideturtle()
+
+from elements import *
 
 
 # ---------- Fonctions de représentation du jeu ---------- #

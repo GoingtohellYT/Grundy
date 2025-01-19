@@ -16,14 +16,14 @@ def initJeu(n, nb_e):
     Initialise le jeu en début de partie.
 
     Pré-conditions :
-        n est le nombre d'éléments à placer dans chaque ensemble
+        n est le nombre maximal d'éléments à placer dans chaque ensemble
         nb_e est le nombre de types d'ensembles à créer
     Renvoie :
         le jeu sous la forme d'une liste de listes. Chaque sous liste représente un type d'ensemble
     """
     jeu = list()
     for i in range(nb_e):
-        jeu.append([n])
+        jeu.append([randint(5, n)])
     return jeu
 
 
@@ -250,9 +250,9 @@ def partie(n, nb_type_ens=2):
     Renvoie :
         Rien
     Pré-conditions :
-        n est un entier qui correspond au nombre maximal d'éléments en début de partie
+        n est un entier qui correspond au nombre maximal d'éléments par ensemble en début de partie
     """
-    jeu = initJeu(randint(3, n), nb_type_ens)
+    jeu = initJeu(n, nb_type_ens)
     loser = None
 
     while loser is None:

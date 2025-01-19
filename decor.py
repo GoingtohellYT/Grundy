@@ -1,4 +1,5 @@
 from turtle import *
+from random import choice, randint
 
 td = Turtle()  # tortue pour dessiner le décor (arrière-plan)
 td.screen.getcanvas().master.resizable(False, False)  # on empêche le joueur de redimensionner la fenêtre
@@ -41,6 +42,7 @@ def flamme(x, y, tortue=td, taille=1):
 
     tortue.goto(x, y)
     tortue.end_fill()
+    tortue.setheading(0)
 
 
 def foyer(x, y, tortue=td):
@@ -163,13 +165,12 @@ def cheminee(x, y, tortue=td):
           hauteur totale : 400)
     """
     # On fait la délimitation murale de la cheminée
-    rectangle(x, y, 10, 400, "white")
-    rectangle(x + 290, y, 10, 400, "white")
+    rectangle(x, y, 10, 400, (91, 60, 17))
+    rectangle(x + 290, y, 10, 400, (91, 60, 17))
 
     # On fait le mur de briques
-
     entier = True
-    for j in range(36):
+    for j in range(37):
         if entier:
             for i in range(12):
                 brique(x + 10 + (22 * i), y + (11 * j), 1)
@@ -228,7 +229,7 @@ def noeud(x, y, c, tortue=td):
     triangle_equi(x + 24, y, 12, "gauche", c)
 
 
-def cadeau(x, y, c1, c2, long, larg, tortue=td):
+def cadeau(x, y, c1, c2, long, larg, tortue=td, nd=True):
     """
     Procédure qui dessine un cadeau
 
@@ -239,6 +240,7 @@ def cadeau(x, y, c1, c2, long, larg, tortue=td):
         - long est la longueur du cadeau
         - larg est la largeur du cadeau
         - tortue est une instance de Turtle()
+        - nd est un booléen
     Post-condition :
          Le foyer est dessiné aux coordonnées (x, y)
     """
@@ -250,13 +252,24 @@ def cadeau(x, y, c1, c2, long, larg, tortue=td):
     rectangle(x + (long / 2) - 3, y, 6, larg + 5, c2)
 
     # On fait le nœud
-    noeud(x + (long / 2) - 12, y + larg + 11, c2)
-    tortue.left(90)
+    if nd:
+        noeud(x + (long / 2) - 12, y + larg + 11, c2)
+    tortue.setheading(0)
 
 
 # ---------- Pour le sapin -------- #
 def dessineBouleDeNoel(x, y, c, t=td):
-    dessineCercle(x, y, t, c)
+    """
+    Procédure qui dessine une boule de Noël
+
+    Pré-conditions :
+        - x et y sont des entiers
+        - c est la couleur de la boule (chaine de caractères ou 3-uplets)
+        - t est une instance de Turtle()
+    Post-conditions :
+        Une boule est affichée à l'écran
+    """
+    dessineCercle(x, y, c, t)
 
     # Dessiner la suspension 
     t.up()
@@ -266,21 +279,19 @@ def dessineBouleDeNoel(x, y, c, t=td):
     t.goto(x, y + 30)  # Longueur de la ligne
 
 
-# Couleurs des boules
-couleurs_boules = ["#F40584", "#83F52C", "#2DDFF3", "#FFFF00"]
-
-
-# Dessin des boules de Noël
-def boules():
-    x_position = -75
-    for c in couleurs_boules:
-        dessineBouleDeNoel(x_position, 0, td, c)
-        x_position += 50  # Espacement horizontal entre les boules
-
-
 def dessineSapin(taille, x, y, t=td):
+    """
+    Procédure qui dessine le sapin de Noël
+
+    Pré-conditions :
+        - taille est un entier
+        - x et y sont des entiers
+        - t est une instance de Turtle()
+    Post-conditions :
+        Un sapin de taille "taille" est affiché aux coordonnées (x, y)
+    """
     t.begin_fill()
-    dessineCarre(taille, x, y, "#5b3c11", t)  # couleur en hexadécimal trouvé à partir d'internet
+    rectangle(x-taille, y, taille, taille, "#5b3c11")
     t.end_fill()
     t.begin_fill()
     dessineTriangle(taille * 2, x + taille / 2, y + taille, "#095228", t)
@@ -294,6 +305,16 @@ def dessineSapin(taille, x, y, t=td):
 
 
 def dessineEtoile(x, y, taille, t=td):
+    """
+    Procédure qui dessine une étoile
+
+    Pré-conditions :
+        - x et y sont des entiers
+        - taille est un entier
+        - t est une instance de Turtle()
+    Post-conditions :
+        Une étoile de taille "taille" est affichée à l'écran aux coordonnées (x, y)
+    """
     t.up()
     t.goto(x, y)
     t.down()
@@ -310,8 +331,28 @@ def dessineEtoile(x, y, taille, t=td):
 
 # Fonction sapinNoel (sapin+étoile)
 def sapinNoel(taille, x, y, t=td):
+    """
+    Procédure qui dessine le sapin et l'étoile
+
+    Pré-conditions :
+        - x et y sont des entiers
+        - taille est un entier
+        - t est une instance de Turtle()
+    Post-conditions :
+        Le sapin et l'étoile sont dessinés
+    """
     dessineSapin(taille, x, y, t)
     dessineEtoile(x - taille * 3 / 4, y + taille * 3.5, taille / 2)
+
+    # Paramètres des boules
+    couleurs_boules = ["#F40584", "#83F52C", "#2DDFF3", "#FFFF00"]
+    pos_boules = [(x, y+taille*1.5), (x-taille/2, y+taille*2.6), (x-taille/1.2, y+taille*1.8)]
+    
+    # On place les boules aléatoirement sur le sapin
+    for i in range(randint(3, 3)):
+        coordonnees = choice(pos_boules)
+        dessineBouleDeNoel(coordonnees[0], coordonnees[1], choice(couleurs_boules))
+        pos_boules.remove(coordonnees)  # Pour ne pas dessiner deux boules au même endroit
 
 
 # ---------- Pour le sol ---------- #
@@ -356,6 +397,29 @@ def table():
     rectangle(-750, -450, 1500, 80, (136, 51, 9))
 
 
+couleurs_cadeaux = [("red", "yellow"), ("purple", "green"), ("blue", "orange")]
+
+
+def pile_cadeaux(x, y, n, couleurs):
+    """
+    Procédure récursive qui crée une pile de cadeau
+
+    Pré-conditions :
+        - x, y et n sont des entiers
+    Post-conditions :
+        Une pile de base n cadeaux est dessinée en (x, y)
+    """
+    if n == 0:
+        return
+    elif n == 1:
+        cadeau(x, y, "red", "yellow", 30, 25)
+    else:
+        for i in range(n):
+            couleur = choice(couleurs)
+            cadeau(x+i*40, y, couleur[0], couleur[1], 30, 25, nd=False)
+        pile_cadeaux(x+20, y+30, n-1, couleurs)
+
+
 def decor():
     """
     Procédure qui dessine tout le décor
@@ -366,9 +430,11 @@ def decor():
     parquet()
     tapis()
     table()
-    sapinNoel(100, -175, 50)
+    sapinNoel(100, 25, 50)
+
+    # On fait les cadeaux au pied du sapin
     for i in range(4):
-        cadeau(-250 + i * 40, 50, "red", "yellow", 30, 25)
-    # boules sapin
-    # fauteuil
-    cheminee(0, 50)
+        cadeau(-50 + i * 40, 50, "red", "yellow", 30, 25)
+
+    pile_cadeaux(-650, 50, 7, couleurs_cadeaux)
+    cheminee(200, 50)

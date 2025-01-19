@@ -1,9 +1,8 @@
-from turtle import *
 from formes_basiques import *
+from gui import to
 
 
 # ---------- Pour les séparateurs ---------- #
-
 def sucre_dorge(x, y, tortue):
     """
     Procédure qui dessine un sucre d'orge en (x, y)
@@ -45,6 +44,17 @@ def sucre_dorge(x, y, tortue):
 
 # Fonction pour dessiner une guirlande verticale
 def dessineGuirlande(x, y, t, n=3):
+    """
+    Procédure qui dessine une guirlande en (x, y)
+
+    Pré-conditions :
+        - x est un entier
+        - y est un entier
+        - n est un entier
+        - t est une instance de Turtle()
+    Post-conditions :
+        Une guirlande est dessiné à l'écran aux coordonnées (x, y)
+    """
     # Liste de couleurs pour la guirlande
     couleurs = ["#F40584", "#83F52C", "#2DDFF3", "#FFFF00", "#B026FF"]
 
@@ -150,7 +160,41 @@ def pain_depices(x, y, tortue, nb, mult=0.3):
     tortue.write(str(nb))
 
 
+def flocon(t, mult=0.15):
+    """
+    Procédure qui dessine un flocon en (x, y)
+
+    Pré-conditions :
+        - t est une instance de Turtle()
+    Post-conditions :
+        Un flocon est dessiné à l'écran aux coordonnées (x, y)
+    """
+    to.getscreen().tracer(0)  # On affiche le flocon instantanément pour ne pas ralentir trop le jeu
+    for i in range(3):
+        for i in range(3):
+            t.forward(30 * mult)
+            t.backward(30 * mult)
+            t.right(45)
+        t.left(90)
+        t.backward(30 * mult)
+        t.left(45)
+    t.right(90)
+    t.forward(90 * mult)
+    to.getscreen().tracer(1)  # On remet la vitesse de dessin par défaut
+
+
 def tasse(x, y, t, nb):  # Dessiner le corps de la tasse (un carré)
+    """
+    Procédure qui dessine une tasse en (x, y)
+
+    Pré-conditions :
+        - x est un entier
+        - y est un entier
+        - nb est un entier
+        - t est une instance de Turtle()
+    Post-conditions :
+        Une tasse est dessinée à l'écran aux coordonnées (x, y)
+    """
     t.penup()
     t.goto(x, y)  # Positionner la tortue au coin inférieur gauche
     t.pendown()
@@ -171,10 +215,24 @@ def tasse(x, y, t, nb):  # Dessiner le corps de la tasse (un carré)
     t.goto(x, y)
     t.setheading(0)
     t.begin_fill()
-    t.fillcolor("white")  # Remplir avec la couleur blanche
+    t.fillcolor((142, 29, 45))  # Remplir avec la couleur du tapis
     t.circle(8, -180)
     t.end_fill()
 
+    # ajout du flocon de neige
+    t.penup()
+    t.goto(x + 15, y + 33)  # Positionner la tortue au centre de la tasse
+    t.begin_fill()
+    t.color("white")
+    t.pendown()
+    for i in range(8):
+        flocon(t)
+        t.left(45)
+    t.end_fill()
+    t.color("black")
+
+    t.up()
+    t.forward(-20)
     t.write(str(nb))
 
     # Terminer le dessin
