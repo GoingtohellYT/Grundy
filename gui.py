@@ -1,3 +1,4 @@
+# Binôme : Héloïse Fouillout et Alexis Mengual
 from decor import *
 
 # -------------- Création des tortues nécessaires à l'affichage du jeu -------------- #
@@ -8,7 +9,7 @@ decor()
 
 to = Turtle()  # tortue pour dessiner le jeu (objets et séparateurs)
 to.speed(0)  # on met la vitesse de la tortue à la vitesse maximale pour ne pas ralentir le jeu
-td.getscreen().tracer(1)  # On désactive l'affichage instantané
+# td.getscreen().tracer(1)  # On désactive l'affichage instantané
 
 tx = Turtle()  # tortue pour afficher les actions de l'ordi
 tx.speed(0)

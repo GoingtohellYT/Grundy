@@ -1,3 +1,4 @@
+# Binôme : Héloïse Fouillout et Alexis Mengual
 from formes_basiques import *
 from gui import to
 
@@ -169,7 +170,7 @@ def flocon(t, mult=0.15):
     Post-conditions :
         Un flocon est dessiné à l'écran aux coordonnées (x, y)
     """
-    to.getscreen().tracer(0)  # On affiche le flocon instantanément pour ne pas ralentir trop le jeu
+    # to.getscreen().tracer(0)  # On affiche le flocon instantanément pour ne pas ralentir trop le jeu
     for i in range(3):
         for i in range(3):
             t.forward(30 * mult)
@@ -180,7 +181,7 @@ def flocon(t, mult=0.15):
         t.left(45)
     t.right(90)
     t.forward(90 * mult)
-    to.getscreen().tracer(1)  # On remet la vitesse de dessin par défaut
+    # to.getscreen().tracer(1)  # On remet la vitesse de dessin par défaut
 
 
 def tasse(x, y, t, nb):  # Dessiner le corps de la tasse (un carré)

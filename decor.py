@@ -1,3 +1,4 @@
+# Binôme : Héloïse Fouillout et Alexis Mengual
 from turtle import *
 from random import choice, randint
 
@@ -431,9 +432,10 @@ def decor():
     tapis()
     table()
     sapinNoel(100, 25, 50)
+    sapinNoel(100,75,50)
 
     # On fait les cadeaux au pied du sapin
-    for i in range(4):
+    for i in range(12):
         cadeau(-50 + i * 40, 50, "red", "yellow", 30, 25)
 
     pile_cadeaux(-650, 50, 7, couleurs_cadeaux)

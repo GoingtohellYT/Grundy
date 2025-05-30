@@ -1,3 +1,4 @@
+# Binôme : Héloïse Fouillout et Alexis Mengual
 from turtle import *
 from decor import td
 

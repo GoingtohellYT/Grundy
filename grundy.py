@@ -9,6 +9,7 @@ from random import randint  # pour que l'ordinateur puisse jouer aléatoirement
 from time import sleep  # pour que l'ordinateur puisse réfléchir 1 seconde
 from gui import representationJeu, reset, display_text  # pour l'interface graphique
 from turtle import numinput, done  # pour demander les valeurs et garder la fenêtre ouverte en fin de partie
+from strategie import strategie_gagnante, valGrundy  # pour déterminer le coup de l'ordi
 
 
 def initJeu(n, nb_e):
@@ -70,6 +71,7 @@ def typeEnsembleJouable(type_ens):
         i += 1
     return jouable
 
+# ------------ Joueur ----------#
 
 def choixTypeEnsembleJoueur(jeu):
     """
@@ -152,75 +154,15 @@ def joueurJoue(jeu):
     jeu[type_ens_joueur - 1][ensemble_joueur - 1] = coupe_joueur  # On change la taille de l'ensemble coupé
 
     jeu[type_ens_joueur - 1].insert(ensemble_joueur, nb_elem_ensemble - coupe_joueur)  # On insère un ensemble avec les éléments suivants la coupe
-    display_text(f"Vous avez joué dans le type d'ensemble n°{type_ens_joueur} et avez choisi de couper l'ensemble {ensemble_joueur} à l'endroit {coupe_joueur}", -610, -400, clear=True)
+    display_text(f"Vous avez joué dans le type d'ensemble n°{type_ens_joueur}, ensemble {ensemble_joueur}, position {coupe_joueur}", -610, -400, clear=True)
 
-
-def choixTypeEnsembleOrdi(jeu):
-    """
-    Permet à l'ordi de sélectionner le type d'ensemble dans lequel il joue
-
-    Renvoie :
-        le type d'ensemble dans lequel l'ordi joue
-    Pré-conditions :
-        jeu est une liste de liste qui suit la structure de jeu générée par la fonction initJeu
-    Post-conditions :
-        jeu est inchangée
-    """
-    choix_ordi = randint(1, len(jeu))
-    while not (typeEnsembleJouable(jeu[choix_ordi - 1])):
-        choix_ordi = randint(1, len(jeu))
-    return choix_ordi
-
-
-# Fait choisir un ensemble aléatoirement à l'ordinateur
-# renvoie le n° de l'ensemble
-# tire un n° d'ensemble tant que l'ensemble choisi est trop petit pour être découpé
-def choixEnsembleOrdi(type_ens):
-    """
-    Détermine l'ensemble dans lequel l'ordi joue (les ensembles sont numérotés de 1 à len(type_ens))
-
-    Renvoie :
-        le numéro de l'ensemble dans lequel l'ordi joue
-    Pré-conditions :
-        type_ens est une liste de nombre entiers strictement positifs
-    Post-conditions :
-        type_ens reste inchangée suite à l'exécution.
-        L'ordi ne peut jouer dans un ensemble qui contient moins de 3 éléments
-    """
-    choix_ordi = randint(1, len(type_ens))
-    while not (type_ens[choix_ordi - 1] > 2):
-        choix_ordi = randint(1, len(type_ens))
-    return choix_ordi
-
-
-# Fait choisir une coupe aléatoirement à l'ordinateur
-# nbEltEnsemble est le nombre d'éléments de l'ensemble dans lequel on joue
-# renvoie la coupe
-# tire une coupe tant qu'elle divise l'ensemble en deux parties égales
-# (si le nombre d'objets est pair)
-def choixCoupeOrdi(nbEltEnsemble):
-    """
-    Détermine à quel endroit l'ordi va couper l'ensemble
-
-    Renvoie :
-        le numéro de coupe
-    Pré-conditions :
-        nbEltEnsemble est un nombre entier qui correspond au nombre d'éléments de l'ensemble
-    Post-conditions :
-        nbEltEnsemble est inchangé après l'exécution
-    """
-    choix_ordi = randint(1, nbEltEnsemble - 1)
-    while not (choix_ordi * 2 != nbEltEnsemble):
-        choix_ordi = randint(1, nbEltEnsemble - 1)
-    return choix_ordi
-
+# ---------- Partie ordi ---------- #
 
 # fait jouer l'ordi, et affiche où il a joué
-# utilise choixEnsembleJoueur et choixCoupeJoueur
 # met à jour le jeu
 def ordiJoue(jeu):
     """
-    Fait jouer le joueur
+    Fait jouer l'ordinateur
 
     Renvoie :
         Rien
@@ -229,16 +171,49 @@ def ordiJoue(jeu):
     Post-conditions :
         jeu est modifié de façon à refléter l'action de l'ordi
     """
-    sleep(1)  # pause d'1s pour simuler la réflexion de l'ordi
-    type_ens_ordi = choixTypeEnsembleOrdi(jeu)
-    ensemble_ordi = choixEnsembleOrdi(jeu[type_ens_ordi - 1])
-    nb_elem_ensemble = jeu[type_ens_ordi - 1][ensemble_ordi - 1]
 
-    coupe_ordi = choixCoupeOrdi(nb_elem_ensemble)
-    jeu[type_ens_ordi - 1][ensemble_ordi - 1] = coupe_ordi  # On change la taille de l'ensemble coupé
+    # Combiner tous les ensembles pour calculer l'indice global
+    tous_ensembles = jeu[0] + jeu[1]
+    taille_type1 = len(jeu[0])
+    indice_ensemble, position_coupe = strategie_gagnante(tous_ensembles)
 
-    jeu[type_ens_ordi - 1].insert(ensemble_ordi, nb_elem_ensemble - coupe_ordi)  # On insère un ensemble avec les éléments suivants la coupe
-    display_text(f"L'ordi a joué dans le type d'ensemble n°{type_ens_ordi} et a choisi de couper l'ensemble {ensemble_ordi} à l'endroit {coupe_ordi}", -610, -430)
+    # Vérifier que l'indice est valide
+    if indice_ensemble < 0 or indice_ensemble >= len(tous_ensembles):
+        print(f"Erreur : Indice d'ensemble invalide : {indice_ensemble}")
+        return False
+
+    # Vérifier que l'ensemble est assez grand
+    taille_ensemble = tous_ensembles[indice_ensemble]
+    if taille_ensemble < 3:
+        print(f"Erreur : Ensemble trop petit pour être coupé : {taille_ensemble}")
+        return False
+
+    # Vérifier que la position de coupe est valide
+    if position_coupe <= 0 or position_coupe >= taille_ensemble:
+        print(f"Erreur : Position de coupe invalide : {position_coupe}")
+        return False
+
+    reste = taille_ensemble - position_coupe
+    if reste == position_coupe:
+        print(f"Erreur : Les deux parties auraient la même taille : {position_coupe}")
+        return False
+
+    # Appliquer le coup
+    if indice_ensemble < taille_type1:
+        # Coup dans le type d'ensemble 1
+        print(f"L'ordi a joué dans le type d'ensemble n°1, ensemble {indice_ensemble+1}, position {position_coupe}")
+        display_text(f"L'ordi a joué dans le type d'ensemble n°1, ensemble {indice_ensemble+1}, position {position_coupe}", -610, -430)
+        jeu[0][indice_ensemble] = reste
+        jeu[0].insert(indice_ensemble, position_coupe)
+    else:
+        # Coup dans le type d'ensemble 2
+        indice_local = indice_ensemble - taille_type1
+        print(f"L'ordi a joué dans le type d'ensemble n°2, ensemble {indice_local+1}, position {position_coupe}")
+        display_text(f"L'ordi a joué dans le type d'ensemble n°2, ensemble {indice_local+1}, position {position_coupe}", -610, -430)
+        jeu[1][indice_local] = reste
+        jeu[1].insert(indice_local, position_coupe)
+
+
 
 
 # Fait jouer alternativement le joueur et l'ordi
@@ -254,23 +229,35 @@ def partie(n, nb_type_ens=2):
     """
     jeu = initJeu(n, nb_type_ens)
     loser = None
+    if valGrundy(jeu[0]+jeu[1]) == 0:
+        order = [joueurJoue, ordiJoue]
+        display_text("L'ordinateur vous laisse commencer", -610, -400)
+    else:
+        order = [ordiJoue, joueurJoue]
+        display_text("L'ordinateur souhaite commencer", -610, -400)
 
     while loser is None:
         reset()
         representationJeu(jeu)
-        joueurJoue(jeu)
+        order[0](jeu)
         if finDeJeu(jeu):
             reset()
             representationJeu(jeu)
-            loser = "ordi"
+            if str(order[1]) == "ordiJoue":
+                loser = "Ordi"
+            else:
+                loser = "Joueur"
         else:
             reset()
             representationJeu(jeu)
-            ordiJoue(jeu)
+            order[1](jeu)
             if finDeJeu(jeu):
                 reset()
                 representationJeu(jeu)
-                loser = "joueur"
+                if str(order[0]) == "ordiJoue":
+                    loser = "Ordi"
+                else:
+                    loser = "Joueur"
     display_text(f"{loser} a perdu !", -610, -415, clear=True)
     done()
 
